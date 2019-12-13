@@ -44,6 +44,8 @@ public class Player extends Entity{
 		} else {
 			useAnimation(ANIM_IDLE);
 		}
+		
+		
 
 		
 		camera.getPosition().lerp(transform.pos.mul(-world.getScale(), new Vector3f()), 0.05f);

@@ -38,6 +38,12 @@ public abstract class Entity {
 		
 	}
 	
+	public void setPos(Vector2f newLoc) {
+		transform.pos.x = newLoc.x;
+		transform.pos.y = newLoc.y;
+		
+	}
+	
 	protected void setAnimation(int index, Animation animation) {
 		if(index < animations.length) {
 			animations[index] = animation;
@@ -131,4 +137,10 @@ public abstract class Entity {
 			entity.transform.pos.set(entity.boundingBox.getCenter().x, entity.boundingBox.getCenter().y, 0);
 		}
 	}
+	
+	public Vector3f getPos() {
+		return transform.pos;
+	}
+
+	
 }

@@ -1,9 +1,6 @@
 package game;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.glfwInit;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
-import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 import java.awt.image.BufferedImage;
@@ -32,19 +29,19 @@ public class Main {
 	public Main() {
 //		
 //		//IMAGE SPLITTER
-//		try {
-//			final BufferedImage source = ImageIO.read(new File("res/areas/palletTown.png"));
-//			int idx = 0;
-//			
-//			for(int x = 0; x < source.getWidth(); x += 15) {
-//				for (int y = 0; y < source.getHeight(); y += 15) {
-//			    ImageIO.write(source.getSubimage(x, y, 15, 15), "png", new File("res/areas/<townNAME>/" + idx++ + ".png"));
-//				}
-//			}
-//			
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			final BufferedImage source = ImageIO.read(new File("res/areas/playerHouseUpper.png"));
+			int idx = 0;
+			
+			for(int y = 0; y < source.getHeight(); y += 20) {
+				for (int x = 0; x < source.getWidth(); x += 20) {
+					ImageIO.write(source.getSubimage(x, y, 20, 20), "png", new File("res/areas/playerHouseUpper/" + idx++ + ".png"));
+				}
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 //				
 		if (!glfwInit()) {
 			System.err.println("GLFW Init() fail");
@@ -57,6 +54,7 @@ public class Main {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
+		WorldLoader.setAreas();
 		
 		Camera camera = new Camera(win.getWidth(), win.getHeight());
 		
@@ -64,18 +62,20 @@ public class Main {
 		
 		TileRenderer tiles = new TileRenderer();
 		Assets.initAsset();
+
 		
 		
 		Shader shader = new Shader("shader");
 		
-		World world = new World();
+		World world = new World(camera);
 		world.calculateView(win);
 		WorldLoader.PalletTown(world);
 		
 		//TODO
 		//Gui gui = new Gui(win);
 		
-		camera.setPosition(new Vector3f(0, 0, 0));
+		
+		//camera.setPosition(new Vector3f(0, 0, 0));
 		
 		double frameCap = 1.0/60.0;
 		double frameTime = 0;
@@ -83,9 +83,6 @@ public class Main {
 		
 		double time = Timer.getTime();
 		double unprocessed = 0;
-		
-		
-		
 		
 		while(!win.shouldClose()) {
 			
@@ -117,8 +114,21 @@ public class Main {
 				if (win.getInput().isKeyPressed(GLFW_KEY_ESCAPE)) {
 					glfwSetWindowShouldClose(win.getWindow(), true);
 				}
+				if (win.getInput().isKeyPressed(GLFW_KEY_C)) {
+					WorldLoader.clearWorld(world);
+				}
+				if (win.getInput().isKeyPressed(GLFW_KEY_P)) {
+					WorldLoader.PalletTown(world);
+				}
+				if (win.getInput().isKeyPressed(GLFW_KEY_L)) {
+					WorldLoader.PlayerHouseGround(world);
+				}
+//				if (win.getInput().isKeyPressed(GLFW_KEY_K)) {
+//					WorldLoader.PlayerHouseGround(world);
+//				}
 				
 				
+				world.checkDoors();
 				
 				world.correctCamera(camera, win);
 				

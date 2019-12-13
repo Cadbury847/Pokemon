@@ -52,4 +52,14 @@ public class Maths {
 		return randint;
 	}
 
+
+	public static boolean contains(int[] palletTownBlocks, int i) {
+		for(int x : palletTownBlocks) {
+			if(x == i) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

@@ -38,10 +38,10 @@ public class TileRenderer {
 		
 		model = new Model(vertices, texture, indices);
 		
-		for(int i = 0; i < Tile.tiles1.length; i++) {
-			if(Tile.tiles1[i] != null) {
-				if (!tileTextures.containsKey(Tile.tiles1[i].getTexture())) {
-					String tex = Tile.tiles1[i].getTexture();
+		for(int i = 0; i < Tile.tiles.length; i++) {
+			if(Tile.tiles[i] != null) {
+				if (!tileTextures.containsKey(Tile.tiles[i].getTexture())) {
+					String tex = Tile.tiles[i].getTexture();
 					tileTextures.put(tex, new Texture(tex));
 				}
 			}
